@@ -4,6 +4,9 @@ payload:
   - DOMAIN-SUFFIX,nhk.jp
   - DOMAIN-SUFFIX,yahoo.co.jp
 
+ # assaultLily
+  - DOMAIN-SUFFIX,pokelabo.jp
+  - DOMAIN-SUFFIX,gree-apps.net
 
   - DOMAIN-KEYWORD,youtube
   - DOMAIN-KEYWORD,googlevideo
