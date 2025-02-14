@@ -1,0 +1,12 @@
+payload:
+  # RDP
+  - DST-PORT,3389
+  - DST-PORT,61452
+  # frp
+  - DST-PORT,14020
+  - DST-PORT,14021
+  - DST-PORT,14022
+  - DST-PORT,14023
+  - DST-PORT,14024
+  - DST-PORT,14025
+  

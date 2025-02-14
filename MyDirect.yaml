@@ -1,0 +1,35 @@
+payload:
+  # hellotalk
+  - DOMAIN-SUFFIX,zegocloud.com
+  - DOMAIN-SUFFIX,hellotalk.com
+  - DOMAIN-SUFFIX,hellotalk8.com
+  # yy
+  - DOMAIN-SUFFIX,yy.com
+  - DOMAIN-SUFFIX,bigda.com
+  - DOMAIN-SUFFIX,yystatic.com
+
+  # fanatical pay with CNY
+  - DOMAIN-SUFFIX,fanatical.com
+  - DOMAIN,fanatical.com
+  
+  # Steam wechat payment
+  - DOMAIN,smart2pay.com
+  - DOMAIN-SUFFIX,smart2pay.com
+  # Steam xiuxianxiaowu
+  - IP-CIDR,107.155.88.234/32
+  # Steam egg surprise
+  - DOMAIN,china-grpc.egg-surprise.online
+  - DOMAIN,china.egg-surprise.online
+  # steam cdn?
+  # https://github.com/xiaorouji/openwrt-passwall/discussions/2117
+  - DOMAIN,steamserver.net
+  - DOMAIN-SUFFIX,steamserver.net
+
+  
+  # Others
+  - DOMAIN,0daydown.com
+  - DOMAIN-SUFFIX,2dland.cn
+  
+  # deepseek
+  - DOMAIN-SUFFIX,deepseek.com
+  

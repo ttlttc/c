@@ -1,0 +1,68 @@
+payload:
+  #ssh
+  - DST-PORT,22
+  - DST-PORT,32641
+  
+  # Syncthing
+  - DST-PORT,22000
+  
+  # COD Mobile
+  - DOMAIN,gameloop.com
+  - DOMAIN-SUFFIX,gameloop.com
+  - DOMAIN,cdn-go.cn
+  - DOMAIN-SUFFIX,cdn-go.cn
+  - DOMAIN,oth.eve.mdt.qq.com
+  - DOMAIN,aegis.qq.com
+  - DOMAIN,snowflake.qq.com
+  - DOMAIN,tamaegis.com
+  - DOMAIN-SUFFIX,codmwest.com
+  - DOMAIN-SUFFIX,itopsdk.com
+  - DOMAIN-SUFFIX,activision.com
+  
+  # Gransaga
+  - DOMAIN,gransaga.jp
+  - DOMAIN-SUFFIX,gransaga.jp
+  
+  # Steam & Epic
+  - DOMAIN-SUFFIX,steamcontent.com
+  - DOMAIN,store.steampowered.com
+  - DOMAIN,steamcommunity.com
+  - DOMAIN-KEYWORD,steam
+  - DOMAIN-SUFFIX,epicgames.com
+  
+  # Binance temp
+  # https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash/Binance
+  - DOMAIN-SUFFIX,binance.com,selGroup
+  - DOMAIN,binance.com,selGroup
+  - DOMAIN-SUFFIX,bnappweb.biz,selGroup
+  - DOMAIN,bnappweb.biz,selGroup
+  
+  # Others
+  - DOMAIN,v2rayssr.com
+  - DOMAIN,bing.com
+  - DOMAIN,github.com
+  - DOMAIN-SUFFIX,github.com
+  - DOMAIN,duckduckgo.com
+  
+  # Waste bandwidth
+  - DOMAIN,jiyou.cloud
+  
+  ##################
+  #  IP test sites #
+  ##################
+  - DOMAIN-SUFFIX,staticfile.org
+  - DOMAIN,staticfile.org
+  # https://browserleaks.com/ip
+  # For test rule if correct 
+  #- DOMAIN-SUFFIX,browserleaks.com
+  #- DOMAIN,browserleaks.com
+  # https://dnsleaktest.com/
+  # Just follow default rule
+  #- DOMAIN-SUFFIX,dnsleaktest.com
+  #- DOMAIN,dnsleaktest.com
+  - DOMAIN-SUFFIX,ipip.ee
+  - DOMAIN,ipip.ee
+  - DOMAIN-SUFFIX,ipw.cn
+  - DOMAIN,ipw.cn
+  
+  
