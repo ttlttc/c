@@ -1,7 +1,11 @@
 payload:
-  #ssh
+  # ssh
   - DST-PORT,22
   - DST-PORT,32641
+
+  # MJJ
+  - DOMAIN-SUFFIX,nodeseek.com
+  - DOMAIN,hostloc
   
   # Syncthing
   - DST-PORT,22000
@@ -44,9 +48,6 @@ payload:
   - DOMAIN-SUFFIX,github.com
   - DOMAIN,duckduckgo.com
   
-  # Waste bandwidth
-  - DOMAIN,jiyou.cloud
-  
   ##################
   #  IP test sites #
   ##################
@@ -64,5 +65,14 @@ payload:
   - DOMAIN,ipip.ee
   - DOMAIN-SUFFIX,ipw.cn
   - DOMAIN,ipw.cn
-  
+
+  # Dummy
+  - DOMAIN-SUFFIX,4348663.xyz
+  - DOMAIN,jiyou.cloud
+
+
+
+
+
+
   
