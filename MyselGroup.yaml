@@ -40,6 +40,10 @@ payload:
   - DOMAIN,binance.com,selGroup
   - DOMAIN-SUFFIX,bnappweb.biz,selGroup
   - DOMAIN,bnappweb.biz,selGroup
+
+  # lspme
+  - DOMAIN-SUFFIX,lspsp.me
+  - DOMAIN-SUFFIX,geetest.com
   
   # Others
   - DOMAIN,v2rayssr.com
