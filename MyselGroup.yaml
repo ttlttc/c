@@ -57,11 +57,9 @@ payload:
   ##################
   - DOMAIN-SUFFIX,staticfile.org
   - DOMAIN,staticfile.org
-  # https://browserleaks.com/ip
-  # For test rule if correct 
+  # https://browserleaks.com/ip  # For test rule if correct 
   #- DOMAIN-SUFFIX,browserleaks.com
   #- DOMAIN,browserleaks.com
-  # https://dnsleaktest.com/
   # Just follow default rule
   #- DOMAIN-SUFFIX,dnsleaktest.com
   #- DOMAIN,dnsleaktest.com
