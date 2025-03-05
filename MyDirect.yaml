@@ -1,8 +1,4 @@
 payload:
-  # leak test
-  - DOMAIN,dnsleaktest.com
-
-  
   # hellotalk
   - DOMAIN-SUFFIX,zegocloud.com
   - DOMAIN-SUFFIX,hellotalk.com
