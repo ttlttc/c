@@ -32,4 +32,7 @@ payload:
   
   # deepseek
   - DOMAIN-SUFFIX,deepseek.com
+
+  # claw
+  - DOMAIN-SUFFIX,claw.cloud
   
