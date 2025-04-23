@@ -181,4 +181,7 @@ payload:
   - DOMAIN-SUFFIX,firehunt.com
   - DOMAIN,domains.google
   - DOMAIN-SUFFIX,domains.google
+
+  # ero
+  - DOMAIN,faleno.jp
   
