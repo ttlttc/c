@@ -184,4 +184,7 @@ payload:
 
   # ero
   - DOMAIN,faleno.jp
+
+  # vps
+  - DOMAIN,greencloudvps.com
   
