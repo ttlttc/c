@@ -1526,6 +1526,8 @@ function newdevice_m(){
 		echo "34.hy2_v4"
 		echo "35.hy1+hy2"
 		echo ""
+		echo "9.openssh更新"
+		echo ""
 		echo "0.返回主菜单"
 		echo "-------------------------------------------"
 		echo -n "请选择："
@@ -1568,6 +1570,8 @@ function newdevice_m(){
 	     34) hy2_v4
 	     ;;
 	     35) hy1_hy2
+	     ;;
+	     9) openssh_update
 	     ;;
 	     0)  break
      	     ;;
@@ -1767,6 +1771,12 @@ read -n 1 -s -r -p "按任意键继续."
 
 function hy1_hy2(){
 bash <(curl -fsSL https://git.io/hysteria.sh)
+read -n 1 -s -r -p "按任意键继续."
+}
+
+function openssh_update(){
+# https://www.nodeseek.com/post-419078-1
+wget -O upgrade_openssh.sh https://gist.github.com/Seameee/2061e673132b05e5ed8dd6eb125f1fd1/raw/upgrade_openssh.sh && sudo chmod +x ./upgrade_openssh.sh && sudo ./upgrade_openssh.sh
 read -n 1 -s -r -p "按任意键继续."
 }
 
@@ -3192,6 +3202,7 @@ curl -I http://localhost
 ./MyMenu.sh ladder_fscarmen
 ./MyMenu.sh hy2_v4
 ./MyMenu.sh hy1_hy2
+./MyMenu.sh openssh_update
 
 
 ./MyMenu.sh tmux_install_with_user_config
