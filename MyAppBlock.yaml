@@ -2,4 +2,5 @@ payload:
   # sublime disable update
   - DOMAIN,license.sublimehq.com
   - DOMAIN,www.sublimetext.com
+  - DOMAIN,myaccount.glarysoft.com
   
