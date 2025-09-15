@@ -1811,7 +1811,7 @@ function soft_m(){
 		echo "110.tmux new -s 0 | 支持110~119"
 		echo ""
 		echo "21.openlist install"
-		echo "22.restart | 23.status | 24.update"
+		echo "22.restart | 23.stop | 24.status | 25.update"
 		echo ""
 		echo "31.yt-dlp-U"
 		echo "32.yt-dlp-DL"
@@ -1889,9 +1889,11 @@ function soft_m(){
 	     ;;
 	     22)  openlist_restart
 	     ;;
-	     23)  openlist_status
+	     23)  openlist_stop
 	     ;;
-	     24)  openlist_update
+	     24)  openlist_status
+	     ;;
+	     25)  openlist_update
 	     ;;
 	     31)  yt-dlp-U
 	     ;;
@@ -2085,6 +2087,10 @@ systemctl restart openlist
 read -n 1 -s -r -p "按任意键继续."
 }
 
+function openlist_restart(){
+systemctl stop openlist
+read -n 1 -s -r -p "按任意键继续."
+}
 
 function openlist_status(){
 systemctl status openlist
@@ -3231,6 +3237,7 @@ curl -I http://localhost
 ./MyMenu.sh tmux_new_-s_9
 ./MyMenu.sh openlist_install
 ./MyMenu.sh openlist_restart
+./MyMenu.sh openlist_stop
 ./MyMenu.sh openlist_status
 ./MyMenu.sh openlist_update
 ./MyMenu.sh yt-dlp-U
