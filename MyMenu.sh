@@ -2069,6 +2069,8 @@ function openlist_install(){
 # gpt改进版静默安装
 curl -fsSL https://res.oplist.org/script/v4.sh -o install-openlist-v4.sh && bash install-openlist-v4.sh install /root
 
+
+systemctl stop openlist
 echo ""
      		echo "后面会自动重启openlist,先删除 /root/openlist/data/ 里面的文件,然后从备份中覆盖."
      		echo ""
