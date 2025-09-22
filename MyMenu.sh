@@ -1605,10 +1605,15 @@ apt autoclean
 #           这/个文件是记录错误登录的日志，如果有人每天试你的密码来暴力破解你的 ssh，那你的这个文件就会很大。
 echo "" > /var/log/btmp
 echo "" > /var/log/auth.log
-# 显示所有限制
-#ulimit -a
-# 设置core文件大小为0,禁止生成core
-ulimit -c 0 
+            # 显示所有限制
+            #ulimit -a
+            # 设置core文件大小为0,禁止生成core
+	    #ulimit -c 0
+tee -a /etc/systemd/system.conf /etc/systemd/user.conf > /dev/null <<'EOF'
+DefaultLimitCORE=0
+EOF
+systemctl daemon-reexec
+
 apt update
 apt install -y curl
 bash <(curl -fsSL git.io/key.sh) -o -g ttlttc -p 32641 -d
@@ -1618,7 +1623,16 @@ chown -R vnstat:vnstat /var/lib/vnstat
 service vnstat restart
 timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
-journalctl --vacuum-time=1d && journalctl --vacuum-size=1M && systemctl restart systemd-journald.service
+# 日志优化
+CONF=/etc/systemd/journald.conf
+grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
+for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+    key=${kv%%=*}
+    grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
+done
+systemctl restart systemd-journald
+journalctl --disk-usage
+
 read -n 1 -s -r -p "新端口: 32641, 按任意键继续!"
 }
 
@@ -1635,7 +1649,12 @@ function LXC_use(){
             # 显示所有限制
             #ulimit -a
             # 设置core文件大小为0,禁止生成core
-		    ulimit -c 0 
+	    #ulimit -c 0
+tee -a /etc/systemd/system.conf /etc/systemd/user.conf > /dev/null <<'EOF'
+DefaultLimitCORE=0
+EOF
+systemctl daemon-reexec
+
 		    apt update
 		    apt install -y curl
 		    bash <(curl -fsSL git.io/key.sh) -o -g ttlttc -p 32641 -d
@@ -1645,7 +1664,16 @@ chown -R vnstat:vnstat /var/lib/vnstat
 service vnstat restart
 		    timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
-		    journalctl --vacuum-time=1d && journalctl --vacuum-size=1M && systemctl restart systemd-journald.service
+# 日志优化
+CONF=/etc/systemd/journald.conf
+grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
+for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+    key=${kv%%=*}
+    grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
+done
+systemctl restart systemd-journald
+journalctl --disk-usage
+
 # LXC专用,要不然改端口不生效,而且必须重启
 		    systemctl mask ssh.socket
             systemctl mask sshd.socket
@@ -1669,7 +1697,11 @@ function KVM_Key_Only(){
             # 显示所有限制
             #ulimit -a
             # 设置core文件大小为0,禁止生成core
-		    ulimit -c 0 
+	    #ulimit -c 0
+tee -a /etc/systemd/system.conf /etc/systemd/user.conf > /dev/null <<'EOF'
+DefaultLimitCORE=0
+EOF
+systemctl daemon-reexec
 	        apt update
 		    apt install -y curl
 	        bash <(curl -fsSL git.io/key.sh) -o -g ttlttc -d
@@ -1679,7 +1711,16 @@ chown -R vnstat:vnstat /var/lib/vnstat
 service vnstat restart
 	        timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
-	        journalctl --vacuum-time=1d && journalctl --vacuum-size=1M && systemctl restart systemd-journald.service
+# 日志优化
+CONF=/etc/systemd/journald.conf
+grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
+for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+    key=${kv%%=*}
+    grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
+done
+systemctl restart systemd-journald
+journalctl --disk-usage
+
 read -n 1 -s -r -p "按任意键继续."
 }
 
@@ -1696,7 +1737,11 @@ function KVM_Optimize_Only(){
             # 显示所有限制
             #ulimit -a
             # 设置core文件大小为0,禁止生成core
-		    ulimit -c 0 
+	    #ulimit -c 0
+tee -a /etc/systemd/system.conf /etc/systemd/user.conf > /dev/null <<'EOF'
+DefaultLimitCORE=0
+EOF
+systemctl daemon-reexec
 	        apt update
 		    apt install -y curl
 	        apt install -y vnstat
@@ -1705,7 +1750,16 @@ chown -R vnstat:vnstat /var/lib/vnstat
 service vnstat restart
 	        timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
-	        journalctl --vacuum-time=1d && journalctl --vacuum-size=1M && systemctl restart systemd-journald.service
+# 日志优化
+CONF=/etc/systemd/journald.conf
+grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
+for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+    key=${kv%%=*}
+    grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
+done
+systemctl restart systemd-journald
+journalctl --disk-usage
+
 read -n 1 -s -r -p "按任意键继续."
 }
 
