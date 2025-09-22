@@ -1601,10 +1601,91 @@ read -n 1 -s -r -p "按任意键继续."
 function KVM_Key_Port(){
 apt clean
 apt autoclean
-#           清理登录日志
-#           这/个文件是记录错误登录的日志，如果有人每天试你的密码来暴力破解你的 ssh，那你的这个文件就会很大。
-echo "" > /var/log/btmp
-echo "" > /var/log/auth.log
+#           清理日志
+find /var/log -type f \( -name "*.log.*" -o -name "*.log-[0-9]*" -o -name "*.log.[0-9]*" -o -name "*.gz" -o -name "*.1" -o -name "*.2" -o -name "*.3" -o -name "*.4" -o -name "*.5" -o -name "*.6" -o -name "*.7" -o -name "*.8" -o -name "*.9" \) -delete
+# 清空当前 .log 文件（保留文件本身，防止进程写日志时报错）
+find /var/log -type f -name "*.log" -exec sh -c ': > "$1"' _ {} \;
+# 安全清空二进制日志（保持结构不破坏）
+: > /var/log/btmp
+: > /var/log/debug
+: > /var/log/lastlog
+: > /var/log/messages
+: > /var/log/secure
+: > /var/log/syslog
+: > /var/log/wtmp
+# alternatives
+tee /etc/logrotate.d/alternatives > /dev/null <<'EOF'
+/var/log/alternatives.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# apt
+tee /etc/logrotate.d/apt > /dev/null <<'EOF'
+/var/log/apt/*.log {
+    size 100K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# btmp
+tee /etc/logrotate.d/btmp > /dev/null <<'EOF'
+/var/log/btmp {
+    size 100K
+    rotate 1
+    missingok
+    create 0660 root utmp
+}
+EOF
+# dpkg
+tee /etc/logrotate.d/dpkg > /dev/null <<'EOF'
+/var/log/dpkg.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# rsyslog
+tee /etc/logrotate.d/rsyslog > /dev/null <<'EOF'
+/var/log/syslog
+/var/log/messages
+/var/log/kern.log
+/var/log/auth.log
+/var/log/daemon.log
+/var/log/debug
+/var/log/user.log {
+    size 200K
+    rotate 1
+    daily
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# wtmp
+tee /etc/logrotate.d/wtmp > /dev/null <<'EOF'
+/var/log/wtmp {
+    size 100K
+    rotate 1
+    monthly
+    missingok
+    create 0664 root utmp
+}
+EOF
+# 立即执行一次轮转，确保生效
+logrotate -f /etc/logrotate.conf
+
             # 显示所有限制
             #ulimit -a
             # 设置core文件大小为0,禁止生成core
@@ -1631,6 +1712,7 @@ for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
 systemctl restart systemd-journald
+rm -rf /var/log/journal/*
 journalctl --disk-usage
 
 read -n 1 -s -r -p "新端口: 32641, 按任意键继续!"
@@ -1642,10 +1724,91 @@ read -n 1 -s -r -p "新端口: 32641, 按任意键继续!"
 function LXC_use(){
 		    apt clean
             apt autoclean
-#           清理登录日志
-#           这/个文件是记录错误登录的日志，如果有人每天试你的密码来暴力破解你的 ssh，那你的这个文件就会很大。
-            echo "" > /var/log/btmp
-            echo "" > /var/log/auth.log
+#           清理日志
+find /var/log -type f \( -name "*.log.*" -o -name "*.log-[0-9]*" -o -name "*.log.[0-9]*" -o -name "*.gz" -o -name "*.1" -o -name "*.2" -o -name "*.3" -o -name "*.4" -o -name "*.5" -o -name "*.6" -o -name "*.7" -o -name "*.8" -o -name "*.9" \) -delete
+# 清空当前 .log 文件（保留文件本身，防止进程写日志时报错）
+find /var/log -type f -name "*.log" -exec sh -c ': > "$1"' _ {} \;
+# 安全清空二进制日志（保持结构不破坏）
+: > /var/log/btmp
+: > /var/log/debug
+: > /var/log/lastlog
+: > /var/log/messages
+: > /var/log/secure
+: > /var/log/syslog
+: > /var/log/wtmp
+# alternatives
+tee /etc/logrotate.d/alternatives > /dev/null <<'EOF'
+/var/log/alternatives.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# apt
+tee /etc/logrotate.d/apt > /dev/null <<'EOF'
+/var/log/apt/*.log {
+    size 100K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# btmp
+tee /etc/logrotate.d/btmp > /dev/null <<'EOF'
+/var/log/btmp {
+    size 100K
+    rotate 1
+    missingok
+    create 0660 root utmp
+}
+EOF
+# dpkg
+tee /etc/logrotate.d/dpkg > /dev/null <<'EOF'
+/var/log/dpkg.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# rsyslog
+tee /etc/logrotate.d/rsyslog > /dev/null <<'EOF'
+/var/log/syslog
+/var/log/messages
+/var/log/kern.log
+/var/log/auth.log
+/var/log/daemon.log
+/var/log/debug
+/var/log/user.log {
+    size 200K
+    rotate 1
+    daily
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# wtmp
+tee /etc/logrotate.d/wtmp > /dev/null <<'EOF'
+/var/log/wtmp {
+    size 100K
+    rotate 1
+    monthly
+    missingok
+    create 0664 root utmp
+}
+EOF
+# 立即执行一次轮转，确保生效
+logrotate -f /etc/logrotate.conf
+
             # 显示所有限制
             #ulimit -a
             # 设置core文件大小为0,禁止生成core
@@ -1672,6 +1835,7 @@ for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
 systemctl restart systemd-journald
+rm -rf /var/log/journal/*
 journalctl --disk-usage
 
 # LXC专用,要不然改端口不生效,而且必须重启
@@ -1690,10 +1854,91 @@ read -n 1 -s -r -p "新端口: 32641, 按任意键继续!"
 function KVM_Key_Only(){
             apt clean
             apt autoclean
-#           清理登录日志
-#           这/个文件是记录错误登录的日志，如果有人每天试你的密码来暴力破解你的 ssh，那你的这个文件就会很大。
-            echo "" > /var/log/btmp
-            echo "" > /var/log/auth.log
+#           清理日志
+find /var/log -type f \( -name "*.log.*" -o -name "*.log-[0-9]*" -o -name "*.log.[0-9]*" -o -name "*.gz" -o -name "*.1" -o -name "*.2" -o -name "*.3" -o -name "*.4" -o -name "*.5" -o -name "*.6" -o -name "*.7" -o -name "*.8" -o -name "*.9" \) -delete
+# 清空当前 .log 文件（保留文件本身，防止进程写日志时报错）
+find /var/log -type f -name "*.log" -exec sh -c ': > "$1"' _ {} \;
+# 安全清空二进制日志（保持结构不破坏）
+: > /var/log/btmp
+: > /var/log/debug
+: > /var/log/lastlog
+: > /var/log/messages
+: > /var/log/secure
+: > /var/log/syslog
+: > /var/log/wtmp
+# alternatives
+tee /etc/logrotate.d/alternatives > /dev/null <<'EOF'
+/var/log/alternatives.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# apt
+tee /etc/logrotate.d/apt > /dev/null <<'EOF'
+/var/log/apt/*.log {
+    size 100K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# btmp
+tee /etc/logrotate.d/btmp > /dev/null <<'EOF'
+/var/log/btmp {
+    size 100K
+    rotate 1
+    missingok
+    create 0660 root utmp
+}
+EOF
+# dpkg
+tee /etc/logrotate.d/dpkg > /dev/null <<'EOF'
+/var/log/dpkg.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# rsyslog
+tee /etc/logrotate.d/rsyslog > /dev/null <<'EOF'
+/var/log/syslog
+/var/log/messages
+/var/log/kern.log
+/var/log/auth.log
+/var/log/daemon.log
+/var/log/debug
+/var/log/user.log {
+    size 200K
+    rotate 1
+    daily
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# wtmp
+tee /etc/logrotate.d/wtmp > /dev/null <<'EOF'
+/var/log/wtmp {
+    size 100K
+    rotate 1
+    monthly
+    missingok
+    create 0664 root utmp
+}
+EOF
+# 立即执行一次轮转，确保生效
+logrotate -f /etc/logrotate.conf
+
             # 显示所有限制
             #ulimit -a
             # 设置core文件大小为0,禁止生成core
@@ -1719,6 +1964,7 @@ for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
 systemctl restart systemd-journald
+rm -rf /var/log/journal/*
 journalctl --disk-usage
 
 read -n 1 -s -r -p "按任意键继续."
@@ -1730,10 +1976,91 @@ read -n 1 -s -r -p "按任意键继续."
 function KVM_Optimize_Only(){
             apt clean
             apt autoclean
-#           清理登录日志
-#           这/个文件是记录错误登录的日志，如果有人每天试你的密码来暴力破解你的 ssh，那你的这个文件就会很大。
-            echo "" > /var/log/btmp
-            echo "" > /var/log/auth.log
+#           清理日志
+find /var/log -type f \( -name "*.log.*" -o -name "*.log-[0-9]*" -o -name "*.log.[0-9]*" -o -name "*.gz" -o -name "*.1" -o -name "*.2" -o -name "*.3" -o -name "*.4" -o -name "*.5" -o -name "*.6" -o -name "*.7" -o -name "*.8" -o -name "*.9" \) -delete
+# 清空当前 .log 文件（保留文件本身，防止进程写日志时报错）
+find /var/log -type f -name "*.log" -exec sh -c ': > "$1"' _ {} \;
+# 安全清空二进制日志（保持结构不破坏）
+: > /var/log/btmp
+: > /var/log/debug
+: > /var/log/lastlog
+: > /var/log/messages
+: > /var/log/secure
+: > /var/log/syslog
+: > /var/log/wtmp
+# alternatives
+tee /etc/logrotate.d/alternatives > /dev/null <<'EOF'
+/var/log/alternatives.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# apt
+tee /etc/logrotate.d/apt > /dev/null <<'EOF'
+/var/log/apt/*.log {
+    size 100K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# btmp
+tee /etc/logrotate.d/btmp > /dev/null <<'EOF'
+/var/log/btmp {
+    size 100K
+    rotate 1
+    missingok
+    create 0660 root utmp
+}
+EOF
+# dpkg
+tee /etc/logrotate.d/dpkg > /dev/null <<'EOF'
+/var/log/dpkg.log {
+    size 50K
+    rotate 1
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# rsyslog
+tee /etc/logrotate.d/rsyslog > /dev/null <<'EOF'
+/var/log/syslog
+/var/log/messages
+/var/log/kern.log
+/var/log/auth.log
+/var/log/daemon.log
+/var/log/debug
+/var/log/user.log {
+    size 200K
+    rotate 1
+    daily
+    missingok
+    notifempty
+    copytruncate
+    compress
+}
+EOF
+# wtmp
+tee /etc/logrotate.d/wtmp > /dev/null <<'EOF'
+/var/log/wtmp {
+    size 100K
+    rotate 1
+    monthly
+    missingok
+    create 0664 root utmp
+}
+EOF
+# 立即执行一次轮转，确保生效
+logrotate -f /etc/logrotate.conf
+
             # 显示所有限制
             #ulimit -a
             # 设置core文件大小为0,禁止生成core
@@ -1758,6 +2085,7 @@ for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
 systemctl restart systemd-journald
+rm -rf /var/log/journal/*
 journalctl --disk-usage
 
 read -n 1 -s -r -p "按任意键继续."
