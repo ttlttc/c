@@ -1697,11 +1697,18 @@ systemctl daemon-reexec
 
 apt update
 apt install -y curl
-bash <(curl -fsSL git.io/key.sh) -o -g ttlttc -p 32641 -d
 apt install -y vnstat
- sed -i -E 's/^[;]*UnitMode [01]/UnitMode 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnit [01]/RateUnit 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnitMode [01]/RateUnitMode 0/' /etc/vnstat.conf
-chown -R vnstat:vnstat /var/lib/vnstat
-service vnstat restart
+for kv in \
+  "UnitMode 0" \
+  "RateUnit 0" \
+  "RateUnitMode 0" \
+  "MaxBandwidth 10000"; do
+    key="${kv%% *}"
+    grep -q "^$key" /etc/vnstat.conf \
+      && sed -i "s|^$key.*|$kv|" /etc/vnstat.conf \
+      || echo "$kv" >> /etc/vnstat.conf
+done && systemctl restart vnstat
+
 timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
 # 日志优化
@@ -1714,6 +1721,25 @@ done
 systemctl restart systemd-journald
 rm -rf /var/log/journal/*
 journalctl --disk-usage
+
+bash <(curl -fsSL git.io/key.sh) -o -u "https://raw.githubusercontent.com/ttlttc/c/refs/heads/main/ed25519_230826.pub" -p 32641 -d
+# 必填配置
+#KEY_URL="https://raw.githubusercontent.com/ttlttc/c/refs/heads/main/ed25519_230826.pub"   # 你的公钥地址
+#SSH_PORT="32641"  # 你要修改的 SSH 端口
+# 覆盖写入 ~/.ssh/authorized_keys
+#mkdir -p ~/.ssh
+#chmod 700 ~/.ssh
+#curl -fsSL "$KEY_URL" -o ~/.ssh/authorized_keys
+#chmod 600 ~/.ssh/authorized_keys
+#echo "[INFO] 公钥已写入 ~/.ssh/authorized_keys"
+# 修改 SSH 端口
+#sed -i "s/^#\?Port .*/Port $SSH_PORT/" /etc/ssh/sshd_config
+#echo "[INFO] 已修改 sshd_config 端口为 $SSH_PORT"
+# 禁用密码登录
+#sed -i "s/^#\?PasswordAuthentication .*/PasswordAuthentication no/" /etc/ssh/sshd_config
+#echo "[INFO] 已禁用密码登录"
+# 重启 sshd 服务
+#systemctl restart sshd
 
 read -n 1 -s -r -p "新端口: 32641, 按任意键继续!"
 }
@@ -1820,11 +1846,18 @@ systemctl daemon-reexec
 
 		    apt update
 		    apt install -y curl
-		    bash <(curl -fsSL git.io/key.sh) -o -g ttlttc -p 32641 -d
 		    apt install -y vnstat
- sed -i -E 's/^[;]*UnitMode [01]/UnitMode 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnit [01]/RateUnit 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnitMode [01]/RateUnitMode 0/' /etc/vnstat.conf
-chown -R vnstat:vnstat /var/lib/vnstat
-service vnstat restart
+for kv in \
+  "UnitMode 0" \
+  "RateUnit 0" \
+  "RateUnitMode 0" \
+  "MaxBandwidth 10000"; do
+    key="${kv%% *}"
+    grep -q "^$key" /etc/vnstat.conf \
+      && sed -i "s|^$key.*|$kv|" /etc/vnstat.conf \
+      || echo "$kv" >> /etc/vnstat.conf
+done && systemctl restart vnstat
+
 		    timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
 # 日志优化
@@ -1838,12 +1871,33 @@ systemctl restart systemd-journald
 rm -rf /var/log/journal/*
 journalctl --disk-usage
 
+
+bash <(curl -fsSL git.io/key.sh) -o -u "https://raw.githubusercontent.com/ttlttc/c/refs/heads/main/ed25519_230826.pub" -p 32641 -d
+# 必填配置
+#KEY_URL="https://raw.githubusercontent.com/ttlttc/c/refs/heads/main/ed25519_230826.pub"   # 你的公钥地址
+#SSH_PORT="32641"  # 你要修改的 SSH 端口
+# 覆盖写入 ~/.ssh/authorized_keys
+#mkdir -p ~/.ssh
+#chmod 700 ~/.ssh
+#curl -fsSL "$KEY_URL" -o ~/.ssh/authorized_keys
+#chmod 600 ~/.ssh/authorized_keys
+#echo "[INFO] 公钥已写入 ~/.ssh/authorized_keys"
+# 修改 SSH 端口
+#sed -i "s/^#\?Port .*/Port $SSH_PORT/" /etc/ssh/sshd_config
+#echo "[INFO] 已修改 sshd_config 端口为 $SSH_PORT"
+# 禁用密码登录
+#sed -i "s/^#\?PasswordAuthentication .*/PasswordAuthentication no/" /etc/ssh/sshd_config
+#echo "[INFO] 已禁用密码登录"
+# 重启 sshd 服务
+#systemctl restart sshd
+
 # LXC专用,要不然改端口不生效,而且必须重启
 		    systemctl mask ssh.socket
             systemctl mask sshd.socket
             systemctl disable sshd
             systemctl enable ssh
             reboot
+
 read -n 1 -s -r -p "新端口: 32641, 按任意键继续!"
 }
 
@@ -1948,12 +2002,19 @@ DefaultLimitCORE=0
 EOF
 systemctl daemon-reexec
 	        apt update
-		    apt install -y curl
-	        bash <(curl -fsSL git.io/key.sh) -o -g ttlttc -d
+	        apt install -y curl
 	        apt install -y vnstat
- sed -i -E 's/^[;]*UnitMode [01]/UnitMode 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnit [01]/RateUnit 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnitMode [01]/RateUnitMode 0/' /etc/vnstat.conf
-chown -R vnstat:vnstat /var/lib/vnstat
-service vnstat restart
+for kv in \
+  "UnitMode 0" \
+  "RateUnit 0" \
+  "RateUnitMode 0" \
+  "MaxBandwidth 10000"; do
+    key="${kv%% *}"
+    grep -q "^$key" /etc/vnstat.conf \
+      && sed -i "s|^$key.*|$kv|" /etc/vnstat.conf \
+      || echo "$kv" >> /etc/vnstat.conf
+done && systemctl restart vnstat
+
 	        timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
 # 日志优化
@@ -1966,6 +2027,27 @@ done
 systemctl restart systemd-journald
 rm -rf /var/log/journal/*
 journalctl --disk-usage
+
+
+bash <(curl -fsSL git.io/key.sh) -o -u "https://raw.githubusercontent.com/ttlttc/c/refs/heads/main/ed25519_230826.pub" -p 32641 -d
+# 必填配置
+#KEY_URL="https://raw.githubusercontent.com/ttlttc/c/refs/heads/main/ed25519_230826.pub"   # 你的公钥地址
+#SSH_PORT="32641"  # 你要修改的 SSH 端口
+# 覆盖写入 ~/.ssh/authorized_keys
+#mkdir -p ~/.ssh
+#chmod 700 ~/.ssh
+#curl -fsSL "$KEY_URL" -o ~/.ssh/authorized_keys
+#chmod 600 ~/.ssh/authorized_keys
+#echo "[INFO] 公钥已写入 ~/.ssh/authorized_keys"
+# 修改 SSH 端口
+#sed -i "s/^#\?Port .*/Port $SSH_PORT/" /etc/ssh/sshd_config
+#echo "[INFO] 已修改 sshd_config 端口为 $SSH_PORT"
+# 禁用密码登录
+#sed -i "s/^#\?PasswordAuthentication .*/PasswordAuthentication no/" /etc/ssh/sshd_config
+#echo "[INFO] 已禁用密码登录"
+# 重启 sshd 服务
+#systemctl restart sshd
+
 
 read -n 1 -s -r -p "按任意键继续."
 }
@@ -2072,9 +2154,17 @@ systemctl daemon-reexec
 	        apt update
 		    apt install -y curl
 	        apt install -y vnstat
- sed -i -E 's/^[;]*UnitMode [01]/UnitMode 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnit [01]/RateUnit 0/' /etc/vnstat.conf && sed -i -E 's/^[;]*RateUnitMode [01]/RateUnitMode 0/' /etc/vnstat.conf
-chown -R vnstat:vnstat /var/lib/vnstat
-service vnstat restart
+for kv in \
+  "UnitMode 0" \
+  "RateUnit 0" \
+  "RateUnitMode 0" \
+  "MaxBandwidth 10000"; do
+    key="${kv%% *}"
+    grep -q "^$key" /etc/vnstat.conf \
+      && sed -i "s|^$key.*|$kv|" /etc/vnstat.conf \
+      || echo "$kv" >> /etc/vnstat.conf
+done && systemctl restart vnstat
+
 	        timedatectl set-timezone Australia/Perth
 timedatectl set-ntp true
 # 日志优化
