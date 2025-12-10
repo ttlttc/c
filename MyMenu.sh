@@ -2431,9 +2431,6 @@ function soft_m(){
 function tmux_install_with_user_config(){
 apt install -y tmux
 cat > /root/.tmux.conf <<EOF
-# 禁用鼠标滚轮切换历史命令
-unbind -n WheelUpPane
-unbind -n WheelDownPane
 # 启用鼠标支持（用于选择窗口、调整窗格大小等）
 set -g mouse on
 # 启用滚动条
@@ -2451,9 +2448,6 @@ read -n 1 -s -r -p "按任意键继续."
 
 function tmux_ONLY_user_config(){
 cat > /root/.tmux.conf <<EOF
-# 禁用鼠标滚轮切换历史命令
-unbind -n WheelUpPane
-unbind -n WheelDownPane
 # 启用鼠标支持（用于选择窗口、调整窗格大小等）
 set -g mouse on
 # 启用滚动条
