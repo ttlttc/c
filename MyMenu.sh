@@ -3074,15 +3074,13 @@ function docker_m(){
 function docker_install(){
 echo "开始安装Docker"; if [ -x "$(command -v docker)" ]; then echo "Docker 已安装，无需重复安装"; echo "按任意键继续!"; read -n 1 -s; else cat > /etc/docker/daemon.json << EOF
 {
-    "log-driver": "json-file",
-    "log-opts": {
-        "max-size": "1k",
-        "max-file": "1"
-    },
-    "ipv6": true,
-    "fixed-cidr-v6": "fd00:dead:beef:c0::/80",
-    "experimental":true,
-    "ip6tables":true
+  "bip": "10.255.0.1/16",
+  "iptables": false,
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "1m",
+    "max-file": "1"
+  }
 }
 EOF
 wget -qO- get.docker.com | bash; if [ -x "$(command -v docker)" ]; then systemctl start docker; systemctl enable docker; echo "Docker 安装成功"; else echo "Docker 安装失败"; fi; fi
