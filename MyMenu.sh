@@ -1714,7 +1714,7 @@ timedatectl set-ntp true
 # 日志优化
 CONF=/etc/systemd/journald.conf
 grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
-for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+for kv in "Storage=volatile" "RuntimeMaxUse=10K" "RuntimeMaxFileSize=10K"; do
     key=${kv%%=*}
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
@@ -1863,7 +1863,7 @@ timedatectl set-ntp true
 # 日志优化
 CONF=/etc/systemd/journald.conf
 grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
-for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+for kv in "Storage=volatile" "RuntimeMaxUse=10K" "RuntimeMaxFileSize=10K"; do
     key=${kv%%=*}
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
@@ -2020,7 +2020,7 @@ timedatectl set-ntp true
 # 日志优化
 CONF=/etc/systemd/journald.conf
 grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
-for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+for kv in "Storage=volatile" "RuntimeMaxUse=10K" "RuntimeMaxFileSize=10K"; do
     key=${kv%%=*}
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
@@ -2170,7 +2170,7 @@ timedatectl set-ntp true
 # 日志优化
 CONF=/etc/systemd/journald.conf
 grep -q '^\[Journal\]' "$CONF" || echo '[Journal]' >> "$CONF"
-for kv in "Storage=volatile" "RuntimeMaxUse=10M" "RuntimeMaxFileSize=1M"; do
+for kv in "Storage=volatile" "RuntimeMaxUse=10K" "RuntimeMaxFileSize=10K"; do
     key=${kv%%=*}
     grep -q "^$key=" "$CONF" && sed -i "s|^$key=.*|$kv|" "$CONF" || sed -i "/^\[Journal\]/a $kv" "$CONF"
 done
@@ -3074,7 +3074,7 @@ function docker_m(){
 function docker_install(){
 echo "开始安装Docker"; if [ -x "$(command -v docker)" ]; then echo "Docker 已安装，无需重复安装"; echo "按任意键继续!"; read -n 1 -s; else cat > /etc/docker/daemon.json << EOF
 {
-  "bip": "10.255.0.1/16",
+  "bip": "10.239.255.1/24",
   "iptables": false,
   "log-driver": "json-file",
   "log-opts": {
