@@ -1,0 +1,10 @@
+*.py
+*.bat
+*.json
+*.txt
+*.exe
+*.apk
+config.yaml
+*.sh
+vpsman/
+*.tar.gz
